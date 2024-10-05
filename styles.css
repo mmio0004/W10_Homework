@@ -1,0 +1,65 @@
+body * {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2 {
+    font-weight: 900;
+    text-align: center;
+}
+
+body {
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.page {
+    width: 1100px; /* Increase width to accommodate the map */
+    background-color: white;
+    margin: 0 auto;
+    padding: 50px;
+    padding-top: 35px;
+}
+
+.vis-container {
+    width: 100%;
+}
+
+.pure-g {
+    margin-bottom: 40px;
+}
+
+.small-font {
+    font-size: 14px;
+    text-align: center;
+}
+
+.columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.left-column, .right-column {
+    flex: 1;
+    min-width: 300px;
+    padding: 15px;
+}
+
+.left-column h2, .right-column h2 {
+    text-align: left;
+}
+
+.full-width {
+    width: 100%;
+    padding: 15px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}

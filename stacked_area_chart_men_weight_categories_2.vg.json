@@ -1,0 +1,153 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Trends of Body Mass Index (BMI) Categories in Men (2000-2014)",
+    "color": "#092215",
+    "fontSize": 13
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/mmio0004/W10Homework/main/data/Men_Weight_Categories_with_Americas_Combined.csv"
+  },
+  "params": [
+    {
+      "name": "SelectedContinent",
+      "value": "All Continents",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All Continents",
+          "Asia",
+          "Africa",
+          "Americas",
+          "Europe",
+          "Oceania"
+        ],
+        "name": "Select Continent: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "SelectedContinent == 'All Continents' ? true : datum.Region == SelectedContinent"
+    },
+    {
+      "aggregate": [
+        {"op": "mean", "field": "Healthy (NCDRisC (2017))", "as": "Healthy"},
+        {"op": "mean", "field": "Overweight or Obese (NCDRisC (2017))", "as": "Overweight"},
+        {"op": "mean", "field": "Underweight (NCDRisC (2017))", "as": "Underweight"}
+      ],
+      "groupby": ["Year"]
+    },
+    {
+      "fold": [
+        "Healthy",
+        "Overweight",
+        "Underweight"
+      ],
+      "as": ["BMI Category", "value"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "area",
+        "stroke": "black",
+        "strokeWidth": {
+          "condition": {
+            "param": "select",
+            "empty": false,
+            "value": 3
+          },
+          "value": 1
+        }
+      },
+      "selection": {
+        "highlight": {
+          "type": "single",
+          "fields": ["BMI Category"],
+          "on": "mouseover",
+          "empty": "none",
+          "clear": "mouseout"
+        },
+        "select": {
+          "type": "multi",
+          "fields": ["BMI Category"],
+          "on": "click",
+          "empty": "none"
+        }
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "ordinal",
+          "title": "Year"
+        },
+        "y": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "Proportion of Men (%)",
+          "stack": "normalize",
+          "axis": {
+            "format": "%"
+          }
+        },
+        "color": {
+          "field": "BMI Category",
+          "type": "nominal",
+          "title": "Body Mass Index (BMI) Category",
+          "scale": {
+            "domain": ["Healthy", "Overweight", "Underweight"],
+            "range": ["#2ca02c", "#ff7f0e", "#1f77b4"]
+          },
+          "legend": {
+            "orient": "right",
+            "offset": 60
+          }
+        },
+        "fillOpacity": {
+          "condition": [
+            {
+              "param": "select",
+              "empty": false,
+              "value": 1
+            },
+            {
+              "param": "highlight",
+              "empty": false,
+              "value": 2
+            }
+          ],
+          "value": 0.8
+        },
+        "tooltip": [
+          {"field": "Year", "type": "ordinal", "title": "Year"},
+          {"field": "BMI Category", "type": "nominal", "title": "Body Mass Index (BMI) Category"},
+          {"field": "value", "type": "quantitative", "title": "Proportion (%)", "format": ".2f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -3,
+        "dy": -5,
+        "fontSize": 15
+      },
+      "encoding": {
+        "x": {"datum": "2014"},
+        "y": {
+          "datum": 0.25,
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "More men are becoming overweight over the years"
+        },
+        "color": {"value": "black"}
+      }
+    }
+  ],
+  "width": 600,
+  "height": 300
+}
