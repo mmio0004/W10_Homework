@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Trends of Body Mass Index (BMI) Categories in Men (2000-2014)",
+    "text": "Global Trends of Body Mass Index (BMI) Categories in Men (2000-2014)",
     "color": "#092215",
     "fontSize": 13
   },
